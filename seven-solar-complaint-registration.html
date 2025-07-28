@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Complaint Registration - Seven Solar</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe082, #ffcc80);
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #ef6c00;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #ef6c00;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #e65100;
+    }
+    .log {
+      margin-top: 20px;
+      background: #fff8e1;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>Register a Complaint</h2>
+<form onsubmit="submitComplaint(); return false;">
+<label for="mobile">Mobile Number</label>
+<input id="mobile" placeholder="Enter mobile number" required="" type="text"/>
+<label for="category">Category</label>
+<select id="category" required="">
+<option value="">Select</option>
+<option value="Panel Issue">Panel Issue</option>
+<option value="Inverter Issue">Inverter Issue</option>
+<option value="Meter Fault">Meter Fault</option>
+<option value="Installation Delay">Installation Delay</option>
+<option value="Others">Others</option>
+</select>
+<label for="description">Description</label>
+<textarea id="description" placeholder="Enter details..." required="" rows="4"></textarea>
+<button type="submit">Submit Complaint</button>
+</form>
+<div class="log" id="complaintLog"></div>
+</div>
+<script>
+    function submitComplaint() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const category = document.getElementById("category").value;
+      const description = document.getElementById("description").value.trim();
+
+      const complaint = {
+        mobile,
+        category,
+        description,
+        status: "Pending",
+        timestamp: new Date().toLocaleString()
+      };
+
+      let complaints = JSON.parse(localStorage.getItem("sevenSolarComplaints") || "[]");
+      complaints.push(complaint);
+      localStorage.setItem("sevenSolarComplaints", JSON.stringify(complaints));
+
+      alert("Complaint registered successfully!");
+      document.querySelector("form").reset();
+      displayComplaints();
+    }
+
+    function displayComplaints() {
+      const complaints = JSON.parse(localStorage.getItem("sevenSolarComplaints") || "[]");
+      const log = document.getElementById("complaintLog");
+      log.innerHTML = "<h3>Previous Complaints</h3>" + complaints.map((c, i) =>
+        `<p><b>${i + 1}. ${c.category}</b> (${c.status})<br>
+        ${c.description}<br>
+        <i>${c.timestamp} - ${c.mobile}</i></p>`
+      ).join("");
+    }
+
+    displayComplaints();
+  </script>
+<div style="text-align:center; margin-top: 20px;">
+  <a href="seven-solar-complaint-status.html" style="padding: 12px 20px; background-color: #ef6c00; color: white; font-size: 16px; border-radius: 8px; text-decoration: none;">Track Complaint Status</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Installation Tracker - Seven Solar</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe082, #ffcc80);
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #ef6c00;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 15px 0;
+      font-size: 16px;
+      padding: 12px;
+      background-color: #fff3e0;
+      border-left: 5px solid #ef6c00;
+      border-radius: 8px;
+    }
+    .completed {
+      background-color: #c8e6c9;
+      border-left-color: #2e7d32;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #ef6c00;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #e65100;
+    }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>Installation Progress</h2>
+<ul id="stepsList">
+<li id="step1">Site Survey Completed</li>
+<li id="step2">Material Delivered</li>
+<li id="step3">Installation In Progress</li>
+<li id="step4">Final Testing &amp; Commissioning</li>
+</ul>
+<button onclick="markNextStep()">Mark Next Step Complete</button>
+</div>
+<script>
+    let currentStep = parseInt(localStorage.getItem("installationStep") || "0");
+
+    function updateSteps() {
+      for (let i = 1; i <= 4; i++) {
+        const li = document.getElementById("step" + i);
+        if (i <= currentStep) {
+          li.classList.add("completed");
+        }
+      }
+    }
+
+    function markNextStep() {
+      if (currentStep < 4) {
+        currentStep += 1;
+        localStorage.setItem("installationStep", currentStep);
+        updateSteps();
+      } else {
+        alert("All steps completed!");
+      }
+    }
+
+    updateSteps();
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Owner - Update Subsidy Status</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe082, #ffcc80);
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #ef6c00;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #ef6c00;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #e65100;
+    }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>Update Subsidy Status (Owner)</h2>
+<label for="mobile">Customer Mobile Number</label>
+<input id="mobile" placeholder="Enter customer mobile number" type="text"/>
+<label for="status">Select Status</label>
+<select id="status">
+<option value="">Select</option>
+<option value="Applied">Applied</option>
+<option value="Under Review">Under Review</option>
+<option value="Approved">Approved</option>
+<option value="Rejected">Rejected</option>
+</select>
+<button onclick="updateStatus()">Update Status</button>
+</div>
+<script>
+    function updateStatus() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const status = document.getElementById("status").value;
+
+      if (!mobile || !status) {
+        alert("Please fill both fields.");
+        return;
+      }
+
+      const subsidy = {
+        mobile,
+        status,
+        updated: new Date().toLocaleString()
+      };
+
+      localStorage.setItem("subsidyStatus_" + mobile, JSON.stringify(subsidy));
+      alert("Subsidy status updated successfully!");
+    }
+  </script>
+</body>
+</html>

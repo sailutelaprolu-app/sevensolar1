@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Customer - Review Quotation</title>
+<style>
+    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #ffe082, #ffcc80); margin: 0; padding: 30px; }
+    .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
+    h2 { text-align: center; color: #ef6c00; margin-bottom: 20px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; }
+    .quote-box { background: #fff8e1; padding: 15px; border-radius: 10px; margin-top: 15px; }
+    button { padding: 10px; background-color: #ef6c00; color: white; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; width: 100%; }
+    button:hover { background-color: #e65100; }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>Review Quotation (Customer)</h2>
+<label for="mobile">Enter Your Mobile Number</label>
+<input id="mobile" onblur="loadQuote()" placeholder="Your registered mobile number" type="text"/>
+<div class="quote-box" id="quoteBox"></div>
+<label for="feedback">Your Remarks / Requests</label>
+<textarea id="feedback" placeholder="e.g. I prefer Adani panels or price is high..." rows="3"></textarea>
+<button onclick="submitFeedback()">Submit Feedback</button>
+</div>
+<script>
+    function loadQuote() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const data = JSON.parse(localStorage.getItem("quotation_" + mobile));
+      const box = document.getElementById("quoteBox");
+
+      
+        if (data) {
+          box.innerHTML = `
+            <p><b>Panel:</b> ${data.panel}</p>
+            <p><b>Inverter:</b> ${data.inverter}</p>
+            <p><b>Structure:</b> ${data.structure}</p>
+            <p><b>Price:</b> ₹${data.price}</p>
+            <p><i>Generated on: ${data.timestamp}</i></p>
+            <a href='seven-solar-agreement.html'><button style="margin-top: 10px;">Proceed to Agreement</button></a>
+          `;
+
+          <p><b>Panel:</b> ${data.panel}</p>
+          <p><b>Inverter:</b> ${data.inverter}</p>
+          <p><b>Structure:</b> ${data.structure}</p>
+          <p><b>Price:</b> ₹${data.price}</p>
+          <p><i>Generated on: ${data.timestamp}</i></p>
+        `;
+      } else {
+        box.innerHTML = "<p>No quotation found for this number.</p>";
+      }
+    }
+
+    function submitFeedback() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const feedback = document.getElementById("feedback").value.trim();
+      if (feedback && mobile) {
+        localStorage.setItem("quotationFeedback_" + mobile, feedback);
+        alert("Your feedback has been submitted!");
+        document.getElementById("feedback").value = "";
+      } else {
+        alert("Enter your mobile and remarks before submitting.");
+      }
+    }
+  </script>
+</body>
+</html>

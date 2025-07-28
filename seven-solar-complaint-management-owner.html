@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Owner - Manage Complaints</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe082, #ffcc80);
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 750px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    img {
+      max-width: 160px;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+    h2 {
+      text-align: center;
+      color: #ef6c00;
+    }
+    .complaint {
+      padding: 15px;
+      background: #fff3e0;
+      border-left: 5px solid #ef6c00;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+    }
+    select {
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      background: #ef6c00;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e65100;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="seven-solar-logo.png" alt="Seven Solar Logo" />
+    <h2>Manage Customer Complaints</h2>
+    <div id="complaints"></div>
+  </div>
+
+  <script>
+    const complaintsDiv = document.getElementById("complaints");
+    const complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+
+    function saveComplaints() {
+      localStorage.setItem("complaints", JSON.stringify(complaints));
+    }
+
+    function updateStatus(index, newStatus) {
+      complaints[index].status = newStatus;
+      saveComplaints();
+      alert("Status updated!");
+      renderComplaints();
+    }
+
+    function renderComplaints() {
+      complaintsDiv.innerHTML = "";
+      if (complaints.length === 0) {
+        complaintsDiv.innerHTML = "<p>No complaints registered yet.</p>";
+        return;
+      }
+
+      complaints.forEach((c, index) => {
+        const compEl = document.createElement("div");
+        compEl.className = "complaint";
+        compEl.innerHTML = `
+          <p><strong>Mobile:</strong> ${c.mobile}</p>
+          <p><strong>Issue:</strong> ${c.issue}</p>
+          <p><strong>Date:</strong> ${c.timestamp}</p>
+          <label for="status-${index}">Status:</label>
+          <select id="status-${index}" onchange="updateStatus(${index}, this.value)">
+            <option value="Pending" ${c.status === "Pending" ? "selected" : ""}>Pending</option>
+            <option value="In Progress" ${c.status === "In Progress" ? "selected" : ""}>In Progress</option>
+            <option value="Resolved" ${c.status === "Resolved" ? "selected" : ""}>Resolved</option>
+          </select>
+        `;
+        complaintsDiv.appendChild(compEl);
+      });
+    }
+
+    renderComplaints();
+  </script>
+</body>
+</html>

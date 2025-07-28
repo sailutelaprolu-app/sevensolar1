@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Customer Solar Registration - Seven Solar</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe082, #ffcc80);
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 800px;
+      background: white;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    h2 {
+      color: #0277bd;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+    button {
+      grid-column: span 2;
+      padding: 12px;
+      background-color: #0288d1;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0277bd;
+    }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>New Customer Solar Request</h2>
+<form onsubmit="saveData(); return false;">
+<div>
+<label for="name">Customer Name</label>
+<input id="name" required="" type="text"/>
+</div>
+<div>
+<label for="mobile">Mobile Number</label>
+<input id="mobile" pattern="[0-9]{10}" required="" type="tel"/>
+</div>
+<div>
+<label for="address">Address</label>
+<textarea id="address" required="" rows="3"></textarea>
+</div>
+<div>
+<label for="capacity">Solar Capacity (kW)</label>
+<input id="capacity" required="" type="number"/>
+</div>
+<div>
+<label for="type">System Type</label>
+<select id="type" required="">
+<option value="">Select</option>
+<option>On-Grid</option>
+<option>Off-Grid</option>
+<option>Hybrid</option>
+</select>
+</div>
+<div>
+<label for="subsidy">Subsidy Option</label>
+<select id="subsidy" required="">
+<option value="">Select</option>
+<option>Subsidy</option>
+<option>Non-Subsidy</option>
+</select>
+</div>
+<div class="full-width">
+<label for="notes">Additional Notes</label>
+<textarea id="notes" rows="3"></textarea>
+</div>
+<button type="submit">Submit Registration</button>
+</form>
+</div>
+<script>
+    function saveData() {
+      const data = {
+        name: document.getElementById("name").value,
+        mobile: document.getElementById("mobile").value,
+        address: document.getElementById("address").value,
+        capacity: document.getElementById("capacity").value,
+        type: document.getElementById("type").value,
+        subsidy: document.getElementById("subsidy").value,
+        notes: document.getElementById("notes").value,
+        timestamp: new Date().toISOString()
+      };
+      let all = JSON.parse(localStorage.getItem("sevenSolarRegistrations") || "[]");
+      all.push(data);
+      localStorage.setItem("sevenSolarRegistrations", JSON.stringify(all));
+      alert("Registration saved! You can login later via mobile number.");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>

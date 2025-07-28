@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Customer - View Subsidy Status</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe082, #ffcc80);
+      margin: 0;
+      padding: 30px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #ef6c00;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .status-box {
+      margin-top: 20px;
+      background: #fff8e1;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>View Subsidy Status (Customer)</h2>
+<label for="mobile">Enter Mobile Number</label>
+<input id="mobile" onblur="showStatus()" placeholder="Your registered mobile number" type="text"/>
+<div class="status-box" id="displayBox"></div>
+</div>
+<script>
+    function showStatus() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const data = JSON.parse(localStorage.getItem("subsidyStatus_" + mobile));
+      const display = document.getElementById("displayBox");
+
+      if (data) {
+        display.innerHTML = `
+          <p><b>Status:</b> <span class='highlight'>${data.status}</span></p>
+          <p><b>Last Updated:</b> ${data.updated}</p>
+        `;
+      } else {
+        display.innerHTML = "<p>No subsidy status found for this number.</p>";
+      }
+    }
+  </script>
+<div style="text-align:center; margin-top: 20px;">
+  <a href="seven-solar-customer-dashboard.html" style="padding: 12px 20px; background-color: #ef6c00; color: white; font-size: 16px; border-radius: 8px; text-decoration: none;">Proceed to Subsidy Info</a>
+</div>
+</body>
+</html>

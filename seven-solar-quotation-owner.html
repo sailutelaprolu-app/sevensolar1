@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Owner - Generate Quotation</title>
+<style>
+    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #ffe082, #ffcc80); margin: 0; padding: 30px; }
+    .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
+    h2 { text-align: center; color: #ef6c00; margin-bottom: 20px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; }
+    button { padding: 12px 20px; background-color: #ef6c00; color: white; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; width: 100%; }
+    button:hover { background-color: #e65100; }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>Quotation Generator (Owner)</h2>
+<label for="mobile">Customer Mobile Number</label>
+<input id="mobile" placeholder="Enter mobile number" type="text"/>
+<label for="panel">Panel Make &amp; Model</label>
+<input id="panel" placeholder="Ex: Vikram Solar 540W" type="text"/>
+<label for="inverter">Inverter Type</label>
+<input id="inverter" placeholder="Ex: Microtek 3kVA" type="text"/>
+<label for="structure">Structure Type</label>
+<input id="structure" placeholder="Ex: Elevated GI Structure" type="text"/>
+<label for="price">Quoted Price (₹)</label>
+<input id="price" placeholder="Enter price" type="number"/>
+<button onclick="generateQuote()">Submit Quotation</button>
+</div>
+<script>
+    function generateQuote() {
+      const mobile = document.getElementById("mobile").value.trim();
+      const panel = document.getElementById("panel").value.trim();
+      const inverter = document.getElementById("inverter").value.trim();
+      const structure = document.getElementById("structure").value.trim();
+      const price = document.getElementById("price").value;
+
+      if (!mobile || !panel || !inverter || !structure || !price) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const quotation = {
+        mobile,
+        panel,
+        inverter,
+        structure,
+        price,
+        timestamp: new Date().toLocaleString()
+      };
+
+      localStorage.setItem("quotation_" + mobile, JSON.stringify(quotation));
+      alert("Quotation submitted for customer: " + mobile);
+    }
+  </script>
+</body>
+</html>

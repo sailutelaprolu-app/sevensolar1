@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Customer - View Installation Progress</title>
+<style>
+    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #ffe082, #ffcc80); margin: 0; padding: 30px; }
+    .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
+    h2 { text-align: center; color: #ef6c00; margin-bottom: 20px; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 12px 0; font-size: 15px; padding: 12px; background-color: #fff3e0; border-left: 5px solid #ef6c00; border-radius: 8px; }
+    .completed { background-color: #c8e6c9; border-left-color: #2e7d32; }
+    .timestamp { font-size: 12px; color: #666; margin-top: 6px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+    button { margin-top: 15px; padding: 10px; background-color: #ef6c00; color: white; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; width: 100%; }
+    button:hover { background-color: #e65100; }
+  </style>
+</head>
+<body>
+<div class="container"><img src="seven-solar-logo.png" style="max-width: 160px; margin-bottom: 20px;"/>
+<h2>View Installation Progress (Customer)</h2>
+<ul id="stepsList">
+<li id="step1">Site Survey Completed <div class="timestamp" id="time1"></div></li>
+<li id="step2">Material Delivered <div class="timestamp" id="time2"></div></li>
+<li id="step3">Installation In Progress <div class="timestamp" id="time3"></div></li>
+<li id="step4">Final Testing &amp; Commissioning <div class="timestamp" id="time4"></div></li>
+</ul>
+<label for="feedback">Feedback</label>
+<textarea id="feedback" placeholder="Give your feedback on installation..." rows="3"></textarea>
+<button onclick="submitFeedback()">Submit Feedback</button>
+</div>
+<script>
+    let currentStep = parseInt(localStorage.getItem("installationStep") || "0");
+    let timestamps = JSON.parse(localStorage.getItem("installationTimestamps") || "[]");
+
+    function updateSteps() {
+      for (let i = 1; i <= 4; i++) {
+        const li = document.getElementById("step" + i);
+        const time = document.getElementById("time" + i);
+        if (i <= currentStep) {
+          li.classList.add("completed");
+          time.innerText = timestamps[i - 1] || "";
+        }
+      }
+    }
+
+    function submitFeedback() {
+      const feedback = document.getElementById("feedback").value.trim();
+      if (feedback) {
+        localStorage.setItem("installationFeedback", feedback);
+        alert("Thank you for your feedback!");
+        document.getElementById("feedback").value = "";
+      } else {
+        alert("Please enter feedback before submitting.");
+      }
+    }
+
+    updateSteps();
+  </script>
+<div style="text-align:center; margin-top: 20px;">
+  <a href="seven-solar-customer-dashboard.html" style="padding: 12px 20px; background-color: #ef6c00; color: white; font-size: 16px; border-radius: 8px; text-decoration: none;">Back to Dashboard</a>
+</div>
+</body>
+</html>
